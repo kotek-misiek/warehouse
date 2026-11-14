@@ -18,6 +18,7 @@ There is a warehouse equipped with various types of sensors that monitor environ
     - Threshold: `50%`
 ## Short description
 Project uses core Java 21. All logs are written to console without additional libraries.
+
 ### General structure
 - **WarehouseService** waits for UDP messages from sensors. When a message is received, it is parsed and sent forward using **RabbitMQ** or **Kafka**.
 - **CentralService** consumes **Kafka** messages, analyses them and sends alarm (*i.e. writes **WARN** log to its console*) if values exceed thresholds.
@@ -25,4 +26,6 @@ Project uses core Java 21. All logs are written to console without additional li
 
 Project is covered by **Mockito** tests and **Jacoco** reports.
 
-**Notice**: There is a configuration file `application.properties` here. It is here for demonstration purposes only, in any real project it have stay on local computer only due to security purposes.
+## Notices
+- **Kafka broker** needs to be started before running services.
+- There is a configuration file **application.properties** here. It is here for demonstration purposes only, in any real project it have stay on local computer only due to security purposes.
