@@ -12,6 +12,7 @@ import org.warehouse.common.Message;
 import org.warehouse.common.SensorType;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.Timestamp;
@@ -156,8 +157,9 @@ public class WarehouseService {
     }
 
     protected void listen(int port) {
-        try (var serverSocket = new ServerSocket(port)) {
+        try (var serverSocket = new ServerSocket()) {
             serverSocket.setReuseAddress(true);
+            serverSocket.bind(new InetSocketAddress(port));
             log("Listener started on port " + port);
             while (!Thread.currentThread().isInterrupted()) {
                 try {
