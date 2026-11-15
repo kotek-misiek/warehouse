@@ -21,6 +21,7 @@ import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.warehouse.common.LogType.ERROR;
@@ -143,17 +144,11 @@ public class WarehouseService {
     }
 
     public void shutdown() {
+        if (!shuttingDown.compareAndSet(false, true)) {
+            return;
+        }
         log("Shutting down " + warehouseId);
-        executor.shutdownNow();
-        if (producer != null) {
-            producer.close();
-        }
-        if (adminClient != null) {
-            adminClient.close();
-        }
-        if (mainThread != null && mainThread.isAlive()) {
-            mainThread.interrupt();
-        }
+        System.exit(0);
     }
 
     protected void listen(int port) {
