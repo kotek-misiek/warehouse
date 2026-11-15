@@ -21,6 +21,7 @@ Project uses core Java 21. All logs are written to console without additional li
 
 ### General structure
 - **WarehouseService** waits for UDP messages from sensors. When a message is received, it is parsed and sent forward using **RabbitMQ** or **Kafka**.
+    - The message **exit** shuts the service down.
 - **CentralService** consumes **Kafka** messages, analyses them and sends alarm (*i.e. writes **WARN** log to its console*) if values exceed thresholds.
 - **Common** library contains common classes used by both services.
 
